@@ -78,28 +78,25 @@
             </div>
 
             <!-- prev image -->
-            <div @click="prevImage" class="w-12 h-12 absolute left-20 text-white">
+            <div @click="prevImage" class="w-12 h-12 hover:text-blue-500 absolute left-20 text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 20 20">
                     <path fill="currentColor" d="m4 10l9 9l1.4-1.5L7 10l7.4-7.5L13 1z" />
                 </svg>
             </div>
 
             <!-- next image -->
-            <div @click="nextImage" class="w-12 h-12 absolute right-20 rotate-140 text-white">
+            <div @click="nextImage" class="w-12 h-12 hover:text-blue-500 absolute right-20 rotate-140 text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 20 20">
                     <path fill="currentColor" d="M7 1L5.6 2.5L13 10l-7.4 7.5L7 19l9-9z" />
                 </svg>
             </div>
 
 
-            <div  role="dialog" aria-modal="true" aria-labelledby="dialog-title" tabindex="-1"
+            <div x-transition
                 class="w-full max-w-lg mx-auto rounded-2xl  p-6 transform transition-all modal-enter modal-enter-active">
-
                 <div class="flex items-center justify-center">
-                    <img class="max-h-[90vh] max-w-[90vw] rounded-lg" :src="currentImg" />
+                    <img :class="preview ? 'opacity-100' : 'opacity-0'" class="max-h-[90vh] max-w-[90vw] rounded-lg transition-opacity duration-800 ease-in-out" :src="currentImg" />
                 </div>
-
-
             </div>
         </div>
     </main>
@@ -148,6 +145,16 @@
                     const currInd = this.images.indexOf(this.currentImg);
                     const newIndex = (currInd + 1) % this.images.length;
                     this.currentImg = this.images[newIndex];
+                },
+
+
+                startSlideshow() {
+                    this.preview = true
+                    this.currentImg = this.images[0]
+
+                    setInterval(() => {
+                        this.nextImage()
+                    }, 4000);
                 }
             }
         }
